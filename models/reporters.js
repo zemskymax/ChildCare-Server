@@ -32,7 +32,7 @@ reporterSchema.statics.get_reporter_info=function(reporterId,callback){
 			console.log("--reporterSchema - reporter found. id: ", reporterId);
 			r.msg.push("--reporterSchema - reporter found. id: ", reporterId);
 			r.status=1;
-			r.info=result;
+			r.info=result.discoveryInfo;
 			return callback(r);
 		});
 }
