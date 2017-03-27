@@ -44,10 +44,15 @@ exports.get_reporter_info = function(req,res,next){
 
 	console.log("get_reporter_info - reporter id: ", reporter.id);
 	
-	//TODO. Do something in the db
-	return res.json({"info" : [
-						{"name" : "a1", "devices" : ["1","2","3"]},
-						{"name" : "a2", "devices" : ["4"]},
-						{"name" : "a3", "devices" : ["5","6"]}
-	]});
+	Reporter.get_reporter_info(reporter.id,function(result){
+		if (!result.status){
+			
+			console.log('get_reporter_info - reporter was not found: ', reporter.id);
+			r.msg.push('get_reporter_info - reporter was not found: ', reporter.id);
+			
+			return res.json(r);
+		}
+
+		return res.json(result)
+	});
 }
