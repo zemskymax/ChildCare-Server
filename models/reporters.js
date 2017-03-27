@@ -34,7 +34,8 @@ reporterSchema.statics.get_reporter_info=function(reporterId,callback){
 				console.log("--reporterSchema - reporter wan't found. id: ", reporterId);		
 				r.msg.push("--reporterSchema - reporter wan't found. id: ", reporterId);
 				r.status = 0;
-				return res.json(r);
+				
+				return callback(r);
 			}
 			
 			console.log("--reporterSchema - reporter found. id: ", reporterId);
