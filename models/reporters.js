@@ -29,6 +29,14 @@ reporterSchema.statics.get_reporter_info=function(reporterId,callback){
 				return callback(r);
 			}
 
+			if (!result || typeof(result) !== 'object' || !result.discoveryInfo){
+				
+				console.log("--reporterSchema - reporter wan't found. id: ", reporterId);		
+				r.msg.push("--reporterSchema - reporter wan't found. id: ", reporterId);
+				r.status = 0;
+				return res.json(r);
+			}
+			
 			console.log("--reporterSchema - reporter found. id: ", reporterId);
 			r.msg.push("--reporterSchema - reporter found. id: ", reporterId);
 			r.status=1;
