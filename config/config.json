@@ -1,0 +1,29 @@
+{
+	"development":{
+		"dev":true,
+		"db":{
+			"mongoUrl":"mongodb://childcaredb:childcaredb@ds143340.mlab.com:43340/childcare",
+			"options" : {
+		    "db": { "native_parser" : true },
+			    "server": {
+			      "auto_reconnect":true,
+			      "socketOptions":{ "keepAlive" : 1, "connectTimeoutMS" : 30000 }
+				}	
+	  		}	
+	    }
+	},
+	"production":{
+		"prod":true,
+		"db":{
+			"mongoUrl":"mongodb://childcaredb:childcaredb@ds143340.mlab.com:43340/childcare",
+			"options" : {
+		    "db": { "native_parser" : true },
+			    "server": {
+			      "poolSize": 20,
+			      "auto_reconnect":true,
+			      "socketOptions":{ "keepAlive" : 1, "connectTimeoutMS" : 30000 }
+				}	
+	  		}	
+	    }
+	}
+}

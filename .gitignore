@@ -1,12 +1,19 @@
-# Node build artifacts
-node_modules
-npm-debug.log
-
-# Local development
-*.env
-*.dev
+lib-cov
+*.seed
+*.log
+*.csv
+*.dat
+*.out
+*.pid
+*.gz
 .DS_Store
 
-# Docker
-Dockerfile
-docker-compose.yml
+pids
+logs
+results
+
+.idea
+.idea/
+node_modules
+node_modules/
+npm-debug.log
