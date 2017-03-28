@@ -10,7 +10,7 @@ exports.set_devices_discovery_report = function(req,res,next){
 	
 	console.log("set_devices_discovery_report");
 	
-	if (!reporterId || typeof(reporterId) !== 'object' || !reporterId || 
+	if (!reporterId || !reporterId || 
 		!deviceReports || typeof(deviceReports) !== 'object' || !deviceReports){
 		
 		console.log('set_devices_discovery_report - please provide all the required data');
