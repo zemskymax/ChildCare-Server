@@ -8,7 +8,7 @@ exports.set_devices_discovery_report = function(req,res,next){
 	var reporterId = req.body.reporterId;
 	var deviceReports = req.body.DeviceReports;
 	
-	console.log("set_devices_discovery_report - reporter: ", reporter);
+	console.log("set_devices_discovery_report");
 	
 	if (!reporterId || typeof(reporterId) !== 'object' || !reporterId || 
 		!deviceReports || typeof(deviceReports) !== 'object' || !deviceReports){
