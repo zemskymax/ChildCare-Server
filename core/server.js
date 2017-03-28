@@ -55,6 +55,9 @@ http.listen(app.get('port'), function()
 app.post('/report/setDevicesDiscoveryReport', controllers.reportController.set_devices_discovery_report); 
 app.post('/report/getReporterInfo', controllers.reportController.get_reporter_info); 
 
+//device
+app.post('/device/getDevicesLastLocation', controllers.deviceController.get_devices_last_location); 
+
 //default
 app.get('/*', function(req, res) 
 {
