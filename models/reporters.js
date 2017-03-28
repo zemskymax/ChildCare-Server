@@ -6,10 +6,6 @@ var reporterSchema = new Schema({
 	registeredDevices : [{
 		name : { type : String},
 		devices : [ { type : String, unique : true } ]
-	}],
-	discoveryList : [{
-		device : { type : String },
-		time : { type : Date}
 	}]
 });
 
@@ -31,10 +27,10 @@ reporterSchema.statics.get_reporter_info=function(reporterId,callback){
 				return callback(r);
 			}
 
-			if (!result || typeof(result) !== 'object' || !result.discoveryInfo){
+			if (!result || typeof(result) !== 'object' || !result.registeredDevices){
 				
-				console.log("--reporterSchema - reporter wan't found. id: ", reporterId);		
-				r.msg.push("--reporterSchema - reporter wan't found. id: ", reporterId);
+				console.log("--reporterSchema - reporter wasn't found. id: ", reporterId);		
+				r.msg.push("--reporterSchema - reporter wasn't found. id: ", reporterId);
 				r.status = 0;
 				
 				return callback(r);
