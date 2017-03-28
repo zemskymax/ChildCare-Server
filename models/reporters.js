@@ -16,7 +16,7 @@ reporterSchema.statics.get_reporter_info=function(reporterId,callback){
 	};
 	var options = {};
 	
-	console.log("reporterSchema");
+	console.log("--reporterSchema");
 	
 	this.model('reporters').findOne(query,options)
 		.exec(function(err,result){
@@ -44,5 +44,4 @@ reporterSchema.statics.get_reporter_info=function(reporterId,callback){
 		});
 }
 
-//TODO. update collection name
 Reporter = mongoose.model('reporters', reporterSchema);

@@ -26,10 +26,17 @@ exports.set_devices_discovery_report = function(req,res,next){
 	console.log("set_devices_discovery_report - reporter id: ", reporterId);
 	console.log("set_devices_discovery_report - device reports: " , deviceReports);
 	
-	//TODO. Do something in the db
-    r.msg.push('we are ok');
-	r.status = 1;
-	return res.json(r);
+	Device.set_devices_last_location(reporterId,deviceReports,function(result){
+		if (!result.status){
+			
+			console.log('set_devices_discovery_report - devices locations were not updated');
+			r.msg.push('set_devices_discovery_report - devices locations were not updated');
+			
+			return res.json(r);
+		}
+
+		return res.json(result)
+	});
 }
 
 /**
