@@ -56,4 +56,34 @@ deviceSchema.statics.set_devices_last_location=function(reporterId,deviceReports
 	return callback(r);
 }
 
+deviceSchema.statics.get_devices_last_location=function(callback){
+	var r = {msg:[],status:0};
+
+	this.model('devices').find()
+		.exec(function(err,result) {
+			if (err) {
+				console.log("--deviceSchema - devices lication were not found.");
+				console.log("error: ", err);
+				
+				r.msg.push("--deviceSchema - devices lication were not found.");
+				r.msg.push("error: ", err);
+			}
+			
+			if (!result || typeof(result) !== 'object'){
+				
+				console.log("--deviceSchema - devices were not found");		
+				r.msg.push("--deviceSchema - devices were not found");
+				r.status = 0;
+				
+				return callback(r);
+			}
+			
+			console.log("--deviceSchema - devices location were found");
+			r.msg.push("--deviceSchema - devices location were found");
+			r.status=1;
+			r.info = result;
+			return callback(r);
+	});
+}
+
 Device = mongoose.model('devices', deviceSchema);
