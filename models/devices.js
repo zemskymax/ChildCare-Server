@@ -37,7 +37,7 @@ deviceSchema.statics.set_devices_last_location=function(reporterId,deviceReports
 			};
 			console.log("--deviceSchema - device : ", device);
 			
-			this.model('users').findOneAndUpdate(query,{$set:device},options)
+			this.model('devices').findOneAndUpdate(query,{$set:device},options)
 				.exec(function(err,result) {
 					if (err) {
 					console.log("--deviceSchema - device lication was not updated. id: ", report.Address);
