@@ -58,8 +58,12 @@ deviceSchema.statics.set_devices_last_location=function(reporterId,deviceReports
 
 deviceSchema.statics.get_devices_last_location=function(callback){
 	var r = {msg:[],status:0};
-
-	this.model('devices').find()
+	var query = {};
+	var options = {
+		_id : 0
+	};
+	
+	this.model('devices').find(query,options)
 		.exec(function(err,result) {
 			if (err) {
 				console.log("--deviceSchema - devices lication were not found.");
