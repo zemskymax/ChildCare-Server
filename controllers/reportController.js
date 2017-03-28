@@ -5,13 +5,17 @@
  */
 exports.set_devices_discovery_report = function(req,res,next){
 	var r = {msg:[],status:0};
-	var reporterId = req.body.reporterId;
+	var reporterId = req.body.ReporterId;
 	var deviceReports = req.body.DeviceReports;
 	
 	console.log("set_devices_discovery_report");
 	
 	if (!reporterId || typeof(reporterId) !== 'object' || !reporterId || 
 		!deviceReports || typeof(deviceReports) !== 'object' || !deviceReports){
+		
+		console.log('set_devices_discovery_report - please provide all the required data');
+		console.log("set_devices_discovery_report - reporter id: ", reporterId);
+		console.log("set_devices_discovery_report - device reports: " , deviceReports);
 		
 		r.msg.push('set_devices_discovery_report - please provide all the required data');
 		r.msg.push('set_devices_discovery_report - reporter id: ', reporterId);
