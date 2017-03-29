@@ -10,7 +10,7 @@ var deviceSchema = new Schema({
 
 deviceSchema.statics.set_devices_last_location=function(reporterId,deviceReports,callback){
 	var r = {msg:[],status:0};
-	var maxStrengh = 60;
+	var maxStrengh = -60;
 	
 	console.log("--deviceSchema");
 	
