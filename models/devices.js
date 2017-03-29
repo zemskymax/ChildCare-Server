@@ -69,6 +69,7 @@ deviceSchema.statics.set_devices_last_location=function(reporterId,deviceReports
 }
 
 function should_update_location_according_timeframe(report, currentStrengh, currentTime) {
+	var result = false; 
 	//get last report time
 	var query = {
 		id:report.Address	
@@ -92,31 +93,28 @@ function should_update_location_according_timeframe(report, currentStrengh, curr
 				
 				console.log("--deviceSchema - should_update_location_according_timeframe - devices were not found");		
 				r.msg.push("--deviceSchema - should_update_location_according_timeframe - devices were not found");
+			} else {			
+				console.log("--deviceSchema - should_update_location_according_timeframe - current time: ", currentTime);
+				console.log("--deviceSchema - should_update_location_according_timeframe - last receive time: ", new Date(result.receiveTime));
+				console.log("--deviceSchema - should_update_location_according_timeframe - current strengh: ", currentStrengh);
+				console.log("--deviceSchema - should_update_location_according_timeframe - last strength: ", result.strengh);
+				console.log("--deviceSchema -----------------------");
+				var receivedTimeInSeconds = (((new Date(result.receiveTime)).getTime())/1000);
+				var currentTimeInSeconds = (currentTime/1000);
+				console.log("--deviceSchema - should_update_location_according_timeframe - received time in seconds: ", receivedTimeInSeconds);
+				console.log("--deviceSchema - should_update_location_according_timeframe - current time in seconds: ", currentTimeInSeconds);
+				console.log("--deviceSchema - difference in time: ", currentTimeInSeconds - receivedTimeInSeconds);
+				console.log("--deviceSchema -----------------------");
 				
-				console.log("--deviceSchema - should_update_location_according_timeframe - RETURN FALSE");
-				return false;
-			}
-			
-			console.log("--deviceSchema - should_update_location_according_timeframe - current time: ", currentTime);
-			console.log("--deviceSchema - should_update_location_according_timeframe - last receive time: ", new Date(result.receiveTime));
-			console.log("--deviceSchema - should_update_location_according_timeframe - current strengh: ", currentStrengh);
-			console.log("--deviceSchema - should_update_location_according_timeframe - last strength: ", result.strengh);
-			console.log("--deviceSchema -----------------------");
-			var receivedTimeInSeconds = (((new Date(result.receiveTime)).getTime())/1000);
-			var currentTimeInSeconds = (currentTime/1000);
-			console.log("--deviceSchema - should_update_location_according_timeframe - received time in seconds: ", receivedTimeInSeconds);
-			console.log("--deviceSchema - should_update_location_according_timeframe - current time in seconds: ", currentTimeInSeconds);
-			console.log("--deviceSchema - difference in time: ", currentTimeInSeconds - receivedTimeInSeconds);
-			console.log("--deviceSchema -----------------------");
-			
-			if (currentTimeInSeconds - receivedTimeInSeconds  > 60 && currentStrengh > Number(result.strengh)) {
-				console.log("--deviceSchema - should_update_location_according_timeframe - RETURN TRUE");
-				return true;
+				if (currentTimeInSeconds - receivedTimeInSeconds  > 60 && currentStrengh > Number(result.strengh)) {
+					console.log("--deviceSchema - should_update_location_according_timeframe - RETURN TRUE");
+					result = true;
+				}
 			}
 		});
 	
-	console.log("--deviceSchema - should_update_location_according_timeframe - RETURN FALSE");	
-	return false;
+	console.log("--deviceSchema - should_update_location_according_timeframe - result", result);	
+	return result;
 }
 
 function should_update_location_according_strength(report) {
