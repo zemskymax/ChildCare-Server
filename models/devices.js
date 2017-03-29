@@ -10,7 +10,7 @@ var deviceSchema = new Schema({
 
 deviceSchema.statics.set_devices_last_location=function(reporterId,deviceReports,callback){
 	var r = {msg:[],status:0};
-	var maxStrengh = -60;
+	var maxStrengh = -55;
 	
 	console.log("--deviceSchema");
 	
@@ -21,7 +21,7 @@ deviceSchema.statics.set_devices_last_location=function(reporterId,deviceReports
 		var strengh = Number(report.Rssi);
 		console.log("--deviceSchema - strengh: ", strengh);
 		
-		if (strengh < maxStrengh) {
+		if (strengh > maxStrengh) {
 			console.log("--deviceSchema - the signal is strong enought");
 			var query = {
 				id:report.Address	
