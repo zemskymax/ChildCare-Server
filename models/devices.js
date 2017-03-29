@@ -90,14 +90,14 @@ function should_update_location_according_timeframe(report, currentStrengh, curr
 			}
 			
 			console.log("--deviceSchema - should_update_location_according_timeframe - current time: ", currentTime);
-			console.log("--deviceSchema - should_update_location_according_timeframe - last receive time: ", result.receiveTime);
+			console.log("--deviceSchema - should_update_location_according_timeframe - last receive time: ", new Date(result.receiveTime));
 			console.log("--deviceSchema - should_update_location_according_timeframe - current strengh: ", currentStrengh);
 			console.log("--deviceSchema - should_update_location_according_timeframe - last strength: ", result.strengh);
 			console.log("--deviceSchema -----------------------");
-			console.log("--deviceSchema - difference in time: ", currentTime - result.receiveTime);
+			console.log("--deviceSchema - difference in time: ", currentTime - new Date(result.receiveTime));
 			console.log("--deviceSchema -----------------------");
 			
-			if (currentTime - result.receiveTime < 60 && currentStrengh > result.strengh) {
+			if (currentTime - new Date(result.receiveTime) < 60 && currentStrengh > Number(result.strengh)) {
 				return false;
 			}
 		});
