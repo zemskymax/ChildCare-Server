@@ -29,7 +29,7 @@ deviceSchema.statics.set_devices_last_location=function(reporterId,deviceReports
 		};
 		var options = {};
 		
-		Device.findOne(query,options)
+		this.model('devices').findOne(query,options)
 			.exec(function(err,result) {
 			
 			if (err) {
