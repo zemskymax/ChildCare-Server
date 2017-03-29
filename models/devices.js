@@ -53,7 +53,7 @@ deviceSchema.statics.set_devices_last_location=function(reporterId,deviceReports
 				console.log("--deviceSchema - difference in time: ", currentTimeInSeconds - receivedTimeInSeconds);
 				
 				if ((currentTimeInSeconds - receivedTimeInSeconds  < 30 && currentStrengh > Number(result.strengh)) 
-				   || currentTimeInSeconds - receivedTimeInSeconds  >= 30 && currentStrengh > maxStrengh){				
+				   || currentTimeInSeconds - receivedTimeInSeconds  >= 30){				
 
 					console.log("--deviceSchema - **UPDATE**");
 					options = {
