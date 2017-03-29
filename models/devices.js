@@ -24,9 +24,10 @@ deviceSchema.statics.set_devices_last_location=function(reporterId,deviceReports
 		var currentStrengh = Number(report.Rssi);
 		console.log("--deviceSchema - current strength: ", currentStrengh);
 	
-		if (should_update_location_according_timeframe(report, currentStrengh, currentTime)) {
+		if ( should_update_location_according_timeframe(report, currentStrengh, currentTime) ) {
 			console.log("--deviceSchema -  **UPDATE**");
 			
+			/*
 			var query = {
 				id:report.Address	
 			};
@@ -53,6 +54,7 @@ deviceSchema.statics.set_devices_last_location=function(reporterId,deviceReports
 					r.msg.push("error: ", err);
 				}
 			});
+			*/
 		} else {
 			console.log("--deviceSchema -  **DONT UPDATE**");
 		}
@@ -108,8 +110,6 @@ function should_update_location_according_timeframe(report, currentStrengh, curr
 			if (currentTimeInSeconds - receivedTimeInSeconds  > 60 && currentStrengh > Number(result.strengh)) {
 				console.log("--deviceSchema - should_update_location_according_timeframe - RETURN TRUE");
 				return true;
-			} else {
-				console.log("--deviceSchema - should_update_location_according_timeframe - RETURN FALSE");
 			}
 		});
 	
