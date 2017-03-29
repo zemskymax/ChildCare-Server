@@ -79,8 +79,7 @@ function should_update_location_according_timeframe(report, currentStrengh, curr
 	
 	console.log("--deviceSchema - should_update_location_according_timeframe");
 	
-	Device.findOne(query,options)
-		.exec(function(err,result) {
+	Device.findOne(query,options,function(err,result) {
 			if (err) {
 				console.log("--deviceSchema - should_update_location_according_timeframe, err: ", err);
 				console.log("error: ", err);
@@ -89,11 +88,11 @@ function should_update_location_according_timeframe(report, currentStrengh, curr
 				r.msg.push("error: ", err);
 			}
 			
-			if (!result || typeof(result) !== 'object'){
-				
+			if (!result || typeof(result) !== 'object'){		
 				console.log("--deviceSchema - should_update_location_according_timeframe - devices were not found");		
 				r.msg.push("--deviceSchema - should_update_location_according_timeframe - devices were not found");
-			} else {			
+			} 
+			else {			
 				console.log("--deviceSchema - should_update_location_according_timeframe - current time: ", currentTime);
 				console.log("--deviceSchema - should_update_location_according_timeframe - last receive time: ", new Date(result.receiveTime));
 				console.log("--deviceSchema - should_update_location_according_timeframe - current strengh: ", currentStrengh);
