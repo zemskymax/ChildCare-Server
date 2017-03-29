@@ -24,42 +24,64 @@ deviceSchema.statics.set_devices_last_location=function(reporterId,deviceReports
 		var currentStrengh = Number(report.Rssi);
 		console.log("--deviceSchema - current strength: ", currentStrengh);
 	
-		var result = should_update_location_according_timeframe(report, currentStrengh, currentTime);
-		console.log("--deviceSchema - result: ", result);
-		if (result) {
-			console.log("--deviceSchema -  **UPDATE**");
+		var query = {
+			id:report.Address	
+		};
+		var options = {};
+		
+		Device.findOne(query,options)
+			.exec(function(err,result) {
 			
-			/*
-			var query = {
-				id:report.Address	
-			};
-			var options = {
-				upsert:true
-			};
+			if (err) {
+				console.log("--deviceSchema - should_update_location_according_timeframe, err: ", err);
+				console.log("error: ", err);
+				
+				r.msg.push("--deviceSchema - should_update_location_according_timeframe, err: ", err);
+				r.msg.push("error: ", err);
+			}
 			
-			var device = {
-				id:report.Address,
-				location:reporterId,
-				time:report.DiscoveryTime,
-				strengh:currentStrengh,
-				receiveTime:currentTime
-			};
-			console.log("--deviceSchema - device : ", device);
-			
-			this.model('devices').findOneAndUpdate(query,{$set:device},options)
-				.exec(function(err,result) {
-					if (err) {
-					console.log("--deviceSchema - device lication was not updated. id: ", report.Address);
-					console.log("error: ", err);
+			if (!result || typeof(result) !== 'object'){		
+				console.log("--deviceSchema - should_update_location_according_timeframe - devices were not found");		
+				r.msg.push("--deviceSchema - should_update_location_according_timeframe - devices were not found");
+			} 
+			else {			
+				var receivedTimeInSeconds = (((new Date(result.receiveTime)).getTime())/1000);
+				var currentTimeInSeconds = (currentTime/1000);
+				console.log("--deviceSchema - received time in seconds: ", receivedTimeInSeconds);
+				console.log("--deviceSchema - current time in seconds: ", currentTimeInSeconds);
+				console.log("--deviceSchema - difference in time: ", currentTimeInSeconds - receivedTimeInSeconds);
+				
+				if (currentTimeInSeconds - receivedTimeInSeconds  > 60 && currentStrengh > Number(result.strengh)) {				
+
+					console.log("--deviceSchema - **UPDATE**");
+					options = {
+						upsert:true
+					};
 					
-					r.msg.push("--deviceSchema - device lication was not updated. id: ", report.Address);
-					r.msg.push("error: ", err);
+					var device = {
+						id:report.Address,
+						location:reporterId,
+						time:report.DiscoveryTime,
+						strengh:currentStrengh,
+						receiveTime:currentTime
+					};
+					console.log("--deviceSchema - device : ", device);
+					
+					this.model('devices').findOneAndUpdate(query,{$set:device},options)
+						.exec(function(err,result) {
+							if (err) {
+							console.log("--deviceSchema - device lication was not updated. id: ", report.Address);
+							console.log("error: ", err);
+							
+							r.msg.push("--deviceSchema - device lication was not updated. id: ", report.Address);
+							r.msg.push("error: ", err);
+						}
+					});
+				} else {
+					console.log("--deviceSchema - **DONT UPDATE**");
 				}
-			});
-			*/
-		} else {
-			console.log("--deviceSchema -  **DONT UPDATE**");
-		}
+			}
+		});
 	}
 	
 	console.log("--deviceSchema - devices upcation was updated");
@@ -79,7 +101,8 @@ function should_update_location_according_timeframe(report, currentStrengh, curr
 	
 	console.log("--deviceSchema - should_update_location_according_timeframe");
 	
-	Device.findOne(query,options,function(err,result) {
+	Device.findOne(query,options)
+		.exec(function(err,result) {
 			if (err) {
 				console.log("--deviceSchema - should_update_location_according_timeframe, err: ", err);
 				console.log("error: ", err);
