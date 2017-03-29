@@ -25,7 +25,8 @@ deviceSchema.statics.set_devices_last_location=function(reporterId,deviceReports
 		console.log("--deviceSchema - current strength: ", currentStrengh);
 	
 		if (should_update_location_according_timeframe(report, currentStrengh, currentTime)) {
-
+			console.log("--deviceSchema -  **UPDATE**");
+			
 			var query = {
 				id:report.Address	
 			};
@@ -101,7 +102,7 @@ function should_update_location_according_timeframe(report, currentStrengh, curr
 			console.log("--deviceSchema - difference in time: ", currentTimeInSeconds - receivedTimeInSeconds);
 			console.log("--deviceSchema -----------------------");
 			
-			if (currentTimeInSeconds - receivedTimeInSeconds  < 60 && currentStrengh > Number(result.strengh)) {
+			if (currentTimeInSeconds - receivedTimeInSeconds  > 60 && currentStrengh > Number(result.strengh)) {
 				return false;
 			}
 		});
