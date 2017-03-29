@@ -22,7 +22,7 @@ deviceSchema.statics.set_devices_last_location=function(reporterId,deviceReports
 		var currentTime = new Date();
 		
 		var currentStrengh = Number(report.Rssi);
-		console.log("--deviceSchema - strengh: ", strengh);
+		console.log("--deviceSchema - current strength: ", currentStrengh);
 	
 		if (should_update_location_according_timeframe(report, currentStrengh, currentTime)) {
 
