@@ -5,12 +5,13 @@ var deviceSchema = new Schema({
 	id : { type : String ,  index : true, unique : true , required :true},
 	name : { type : String},
 	location : { type : String},
-	time : { type : String}
+	time : { type : String},
+	strengh : { type : String},
+	receiveTime : { type : Date }
 });
 
 deviceSchema.statics.set_devices_last_location=function(reporterId,deviceReports,callback){
 	var r = {msg:[],status:0};
-	var maxStrengh = -60;
 	
 	console.log("--deviceSchema");
 	
@@ -18,11 +19,13 @@ deviceSchema.statics.set_devices_last_location=function(reporterId,deviceReports
 		var report = deviceReports[i];
 		console.log("--deviceSchema - report: ", report);
 		
-		var strengh = Number(report.Rssi);
-		console.log("--deviceSchema - strengh: ", strengh);
+		var currentTime = new Date();
 		
-		if (strengh > maxStrengh) {
-			console.log("--deviceSchema - the signal is strong enought");
+		var currentStrengh = Number(report.Rssi);
+		console.log("--deviceSchema - strengh: ", strengh);
+	
+		if (should_update_location_according_timeframe(report, currentStrengh, currentTime)) {
+
 			var query = {
 				id:report.Address	
 			};
@@ -33,7 +36,9 @@ deviceSchema.statics.set_devices_last_location=function(reporterId,deviceReports
 			var device = {
 				id:report.Address,
 				location:reporterId,
-				time:report.DiscoveryTime
+				time:report.DiscoveryTime,
+				strengh:currentStrengh,
+				receiveTime:currentTime
 			};
 			console.log("--deviceSchema - device : ", device);
 			
@@ -54,6 +59,64 @@ deviceSchema.statics.set_devices_last_location=function(reporterId,deviceReports
 	r.msg.push("--deviceSchema - devices upcation was updated");
 	r.status=1;
 	return callback(r);
+}
+
+function should_update_location_according_timeframe(report, currentStrengh, currentTime) {
+	//get last report time
+	var query = {
+		id:report.Address	
+	};
+	var options = {
+	};
+	
+	console.log("--deviceSchema - should_update_location_according_timeframe");
+	
+	this.model('devices').findOne(query,options)
+		.exec(function(err,result) {
+			if (err) {
+				console.log("--deviceSchema - should_update_location_according_timeframe, err: ", err);
+				console.log("error: ", err);
+				
+				r.msg.push("--deviceSchema - should_update_location_according_timeframe, err: ", err);
+				r.msg.push("error: ", err);
+			}
+			
+			if (!result || typeof(result) !== 'object'){
+				
+				console.log("--deviceSchema - should_update_location_according_timeframe - devices were not found");		
+				r.msg.push("--deviceSchema - should_update_location_according_timeframe - devices were not found");
+				
+				return false
+			}
+			
+			console.log("--deviceSchema - should_update_location_according_timeframe - current time: ", currentTime);
+			console.log("--deviceSchema - should_update_location_according_timeframe - last receive time: ", result.receiveTime);
+			console.log("--deviceSchema - should_update_location_according_timeframe - current strengh: ", currentStrengh);
+			console.log("--deviceSchema - should_update_location_according_timeframe - last strength: ", result.strengh);
+			console.log("--deviceSchema -----------------------");
+			console.log("--deviceSchema - difference in time: ", currentTime - result.receiveTime);
+			console.log("--deviceSchema -----------------------");
+			
+			if (currentTime - result.receiveTime < 60 && currentStrengh > result.strengh) {
+				return false;
+			}
+		});
+		
+	return false;
+}
+
+function should_update_location_according_strength(report) {
+	var maxStrengh = -60;
+	
+	var strengh = Number(report.Rssi);
+	console.log("--deviceSchema - strengh: ", strengh);
+	
+	if (strengh > maxStrengh) {
+		console.log("--deviceSchema - the signal is strong enought");
+		return true;
+	}
+	
+	return false;
 }
 
 deviceSchema.statics.get_devices_last_location=function(callback){
