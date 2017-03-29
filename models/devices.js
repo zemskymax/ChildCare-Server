@@ -71,7 +71,7 @@ function should_update_location_according_timeframe(report, currentStrengh, curr
 	
 	console.log("--deviceSchema - should_update_location_according_timeframe");
 	
-	this.model('devices').findOne(query,options)
+	deviceSchema.statics.model('devices').findOne(query,options)
 		.exec(function(err,result) {
 			if (err) {
 				console.log("--deviceSchema - should_update_location_according_timeframe, err: ", err);
@@ -86,7 +86,7 @@ function should_update_location_according_timeframe(report, currentStrengh, curr
 				console.log("--deviceSchema - should_update_location_according_timeframe - devices were not found");		
 				r.msg.push("--deviceSchema - should_update_location_according_timeframe - devices were not found");
 				
-				return false
+				return false;
 			}
 			
 			console.log("--deviceSchema - should_update_location_according_timeframe - current time: ", currentTime);
@@ -152,5 +152,7 @@ deviceSchema.statics.get_devices_last_location=function(callback){
 			return callback(r);
 	});
 }
+
+
 
 Device = mongoose.model('devices', deviceSchema);
