@@ -12,6 +12,7 @@ var deviceSchema = new Schema({
 
 deviceSchema.statics.set_devices_last_location=function(reporterId,deviceReports,callback){
 	var r = {msg:[],status:0};
+	var maxStrengh = -80;
 	
 	console.log("--deviceSchema");
 	
@@ -52,7 +53,7 @@ deviceSchema.statics.set_devices_last_location=function(reporterId,deviceReports
 				console.log("--deviceSchema - difference in time: ", currentTimeInSeconds - receivedTimeInSeconds);
 				
 				if ((currentTimeInSeconds - receivedTimeInSeconds  < 30 && currentStrengh > Number(result.strengh)) 
-				   || currentTimeInSeconds - receivedTimeInSeconds  > 30){				
+				   || currentTimeInSeconds - receivedTimeInSeconds  >= 30 && currentStrengh > maxStrengh){				
 
 					console.log("--deviceSchema - **UPDATE**");
 					options = {
