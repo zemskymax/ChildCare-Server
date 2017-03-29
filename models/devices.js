@@ -95,11 +95,13 @@ function should_update_location_according_timeframe(report, currentStrengh, curr
 			console.log("--deviceSchema - should_update_location_according_timeframe - last strength: ", result.strengh);
 			console.log("--deviceSchema -----------------------");
 			var receivedTimeInSeconds = (((new Date(result.receiveTime)).getTime())/1000);
+			var currentTimeInSeconds = (currentTime/1000);
 			console.log("--deviceSchema - should_update_location_according_timeframe - received time in seconds: ", receivedTimeInSeconds);
-			console.log("--deviceSchema - difference in time: ", receivedTimeInSeconds - (currentTime/1000));
+			console.log("--deviceSchema - should_update_location_according_timeframe - current time in seconds: ", currentTimeInSeconds);
+			console.log("--deviceSchema - difference in time: ", currentTimeInSeconds - receivedTimeInSeconds);
 			console.log("--deviceSchema -----------------------");
 			
-			if (new Date(result.receiveTime) - currentTime  < 60 && currentStrengh > Number(result.strengh)) {
+			if (currentTimeInSeconds - receivedTimeInSeconds  < 60 && currentStrengh > Number(result.strengh)) {
 				return false;
 			}
 		});
