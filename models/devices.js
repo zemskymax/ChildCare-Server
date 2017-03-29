@@ -53,6 +53,8 @@ deviceSchema.statics.set_devices_last_location=function(reporterId,deviceReports
 					r.msg.push("error: ", err);
 				}
 			});
+		} else {
+			console.log("--deviceSchema -  **DONT UPDATE**");
 		}
 	}
 	
@@ -87,6 +89,7 @@ function should_update_location_according_timeframe(report, currentStrengh, curr
 				console.log("--deviceSchema - should_update_location_according_timeframe - devices were not found");		
 				r.msg.push("--deviceSchema - should_update_location_according_timeframe - devices were not found");
 				
+				console.log("--deviceSchema - should_update_location_according_timeframe - RETURN FALSE");
 				return false;
 			}
 			
@@ -109,7 +112,8 @@ function should_update_location_according_timeframe(report, currentStrengh, curr
 				console.log("--deviceSchema - should_update_location_according_timeframe - RETURN FALSE");
 			}
 		});
-		
+	
+	console.log("--deviceSchema - should_update_location_according_timeframe - RETURN FALSE");	
 	return false;
 }
 
