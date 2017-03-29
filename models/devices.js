@@ -7,7 +7,7 @@ var deviceSchema = new Schema({
 	location : { type : String},
 	time : { type : String},
 	strengh : { type : String},
-	receiveTime : { type : Date }
+	receiveTime : { type : String }
 });
 
 deviceSchema.statics.set_devices_last_location=function(reporterId,deviceReports,callback){
@@ -94,10 +94,12 @@ function should_update_location_according_timeframe(report, currentStrengh, curr
 			console.log("--deviceSchema - should_update_location_according_timeframe - current strengh: ", currentStrengh);
 			console.log("--deviceSchema - should_update_location_according_timeframe - last strength: ", result.strengh);
 			console.log("--deviceSchema -----------------------");
-			console.log("--deviceSchema - difference in time: ", currentTime - new Date(result.receiveTime));
+			var receivedTimeInSeconds = (((new Date(result.receiveTime)).getTime())/1000);
+			console.log("--deviceSchema - should_update_location_according_timeframe - received time in seconds: ", receivedTimeInSeconds);
+			console.log("--deviceSchema - difference in time: ", receivedTimeInSeconds - (currentTime/1000));
 			console.log("--deviceSchema -----------------------");
 			
-			if (currentTime - new Date(result.receiveTime) < 60 && currentStrengh > Number(result.strengh)) {
+			if (new Date(result.receiveTime) - currentTime  < 60 && currentStrengh > Number(result.strengh)) {
 				return false;
 			}
 		});
