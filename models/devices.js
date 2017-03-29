@@ -103,7 +103,10 @@ function should_update_location_according_timeframe(report, currentStrengh, curr
 			console.log("--deviceSchema -----------------------");
 			
 			if (currentTimeInSeconds - receivedTimeInSeconds  > 60 && currentStrengh > Number(result.strengh)) {
-				return false;
+				console.log("--deviceSchema - should_update_location_according_timeframe - RETURN TRUE");
+				return true;
+			} else {
+				console.log("--deviceSchema - should_update_location_according_timeframe - RETURN FALSE");
 			}
 		});
 		
